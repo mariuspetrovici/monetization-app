@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pages for Courses</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <%- include("../partials/navbar") %>
+    <h1>Select a Course</h1>
+
+    <label for="courseSelect">Choose a course:</label>
+    <select id="courseSelect">
+      <option value="">Select a course</option>
+      <% courses.forEach(course => { %>
+      <option value="<%= course.id %>"><%= course.title %></option>
+      <% }) %>
+    </select>
+
+    <div id="pagesContainer">
+      <h2>Pages for Selected Course</h2>
+      <ul id="pagesList"></ul>
+    </div>
+
+    <div id="addPageContainer" style="display: none">
+      <h2>Add a New Page</h2>
+      <form id="addPageForm">
+        <textarea
+          id="newPageContent"
+          placeholder="Enter page content here..."
+          required
+        ></textarea>
+        <button type="submit">Add Page</button>
+      </form>
+    </div>
+
+    <script>
+      $("#courseSelect").on("change", function () {
+        const courseId = $(this).val();
+        $("#pagesList").empty();
+        $("#addPageContainer").hide();
+
+        if (courseId) {
+          $("#addPageContainer").show();
+
+          $.ajax({
+            url: `/courses/${courseId}/pages`,
+            method: "GET",
+            success: function (pages) {
+              if (pages.length > 0) {
+                pages.forEach((page, index) => {
+                  $("#pagesList").append(
+                    `<li>
+                          <strong>PAGE ${index + 1}</strong><br>${
+                      page.content
+                    }<br>
+                          <a href="/pages/${page.id}/edit">Edit</a>
+                          <form action="/pages/${
+                            page.id
+                          }?_method=DELETE" method="POST" style="display:inline;">
+                            <button type="submit">Delete</button>
+                          </form>
+                        </li>`
+                  );
+                });
+              } else {
+                $("#pagesList").append(
+                  "<li>No pages available for this course.</li>"
+                );
+              }
+            },
+            error: function (err) {
+              console.error("Error fetching pages:", err);
+              $("#pagesList").append("<li>Error loading pages.</li>");
+            },
+          });
+        } else {
+          $("#pagesList").append("<li>Please select a course.</li>");
+        }
+      });
+
+      $("#addPageForm").on("submit", function (e) {
+        e.preventDefault();
+        const courseId = $("#courseSelect").val();
+        const content = $("#newPageContent").val();
+
+        if (courseId && content) {
+          $.ajax({
+            url: `/pages`,
+            method: "POST",
+            data: {
+              courseId: courseId,
+              content: content,
+            },
+            success: function (response) {
+              $("#newPageContent").val("");
+              $("#courseSelect").trigger("change");
+            },
+            error: function (err) {
+              console.error("Error adding page:", err);
+              alert("Error adding page.");
+            },
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

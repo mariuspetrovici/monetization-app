@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Page</title>
+</head>
+<body>
+  <h1>Edit Page</h1>
+  <form action="/pages/<%= page.id %>/edit" method="POST">
+    <label for="courseId">Course:</label>
+    <select id="courseId" name="courseId" required>
+      <% courses.forEach(course => { %>
+        <option value="<%= course.id %>" <%= course.id === page.courseId ? 'selected' : '' %>>
+          <%= course.title %>
+        </option>
+      <% }) %>
+    </select>
+    
+    <label for="content">Content:</label>
+    <textarea id="content" name="content" rows="4" required><%= page.content %></textarea>
+    
+    <button type="submit">Save</button>
+  </form>
+  <a href="/courses/<%= page.courseId %>/pages">Back to Pages List</a>
+</body>
+</html>

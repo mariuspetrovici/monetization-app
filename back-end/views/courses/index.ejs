@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Course List</title>
+  </head>
+  <body>
+    <%- include("../partials/navbar") %>
+    <h1>Course List</h1>
+    <table border="1">
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+      <% courses.forEach(course => { %>
+      <tr>
+        <td><%= course.title %></td>
+        <td><%= course.description %></td>
+        <td><%= course.price %></td>
+        <td><%= course.status %></td>
+        <td>
+          <a href="/courses/edit/<%= course.id %>">Edit</a> |
+          <a
+            href="/courses/delete/<%= course.id %>"
+            onclick="return confirm('Are you sure?')"
+            >Delete</a
+          >
+        </td>
+      </tr>
+      <% }) %>
+    </table>
+  </body>
+</html>
