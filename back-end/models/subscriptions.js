@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       paranoid: false,
       timestamps: true,
-      tableName: "subscriptions",
+      tableName: "Subscriptions",
       schema: "business",
     }
   );

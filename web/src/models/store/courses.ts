@@ -1,7 +1,8 @@
 export interface Page {
   id: string
-  title: string
-  content: string
+  body: string
+  courseId: string
+  pageNr: number
 }
 
 export interface Course {
@@ -9,7 +10,9 @@ export interface Course {
   title: string
   description: string
   pages: Page[]
-  allContent: Page[]
+  body: Page[]
+  previewImage: string
+  previewBody: string | null
 }
 
 export interface ErrorProps {

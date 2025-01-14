@@ -10,7 +10,7 @@ module.exports = {
         },
         name: Sequelize.STRING,
         price: Sequelize.INTEGER,
-        durationDays: Sequelize.DATE,
+        durationDays: Sequelize.INTEGER,
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE,
         deletedAt: Sequelize.DATE,

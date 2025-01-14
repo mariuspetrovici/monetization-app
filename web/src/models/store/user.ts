@@ -1,4 +1,5 @@
 import { ErrorProps } from './courses'
+import { Subscription } from './subscriptions'
 
 export interface UserStore {
   token: string | null
@@ -21,4 +22,5 @@ interface User {
   lastName: string
   role: string
   progress: any
+  subscription: Subscription
 }

@@ -8,7 +8,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
-  const { token, login, logout } = useUserStore()
+  const { token, login } = useUserStore()
 
   // Validation function
   const validateEmail = (email: string) => {
@@ -31,7 +31,7 @@ const LoginPage = () => {
     }
 
     const success = await login({ email, password })
-
+    console.log('success: ', success)
     if (success) {
       navigate('/')
     }

@@ -31,18 +31,18 @@ const CourseEditor = () => {
     const newPage: Page = { id: Date.now().toString(), title: '', content: '' }
     setCurrentCourse({
       ...currentCourse,
-      pages: [...(currentCourse?.allContent ? currentCourse.allContent : []), newPage],
+      pages: [...(currentCourse?.body ? currentCourse.body : []), newPage],
     })
   }
 
   const handlePageChange = (index: number, field: keyof Page, value: string) => {
-    const updatedPages = currentCourse?.allContent?.map((page, i) => (i === index ? { ...page, [field]: value } : page))
-    setCurrentCourse({ ...currentCourse, allContent: updatedPages })
+    const updatedPages = currentCourse?.body?.map((page, i) => (i === index ? { ...page, [field]: value } : page))
+    setCurrentCourse({ ...currentCourse, body: updatedPages })
   }
 
   const handleSave = async () => {
-    if (currentCourse.allContent?.length) {
-      currentCourse.allContent?.forEach((page) => {})
+    if (currentCourse.body?.length) {
+      currentCourse.body?.forEach((page) => {})
     }
 
     updateCourse(currentCourse)
@@ -77,7 +77,7 @@ const CourseEditor = () => {
       <Typography variant='h5' style={{ marginTop: '20px' }}>
         Pages
       </Typography>
-      {currentCourse?.allContent?.map((page, index) => (
+      {currentCourse?.body?.map((page, index) => (
         <Card key={page.id} style={{ marginTop: '20px' }}>
           <CardContent>
             <TextField

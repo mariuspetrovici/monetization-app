@@ -13,7 +13,7 @@ export const useCoursesStore = create<CoursesStore>((set, get) => ({
     message: '',
     status: '',
   },
-  currentCourse: { id: '', title: '', description: '', pages: [], allContent: [] },
+  currentCourse: { id: '', title: '', description: '', pages: [], body: [], previewImage: '', previewBody: null },
   setError: (error) => set(() => ({ error })),
   setIsEditing: (isEditing) => set(() => ({ isEditing })),
   setIsLoading: (value) => set(() => ({ isLoading: value })),

@@ -1,3 +1,4 @@
+import { useUserStore } from '../store/useUserStore'
 import { API_BASE } from './config'
 
 interface FetchDataProps {
@@ -7,9 +8,15 @@ interface FetchDataProps {
 }
 
 // Utility function to make HTTP requests
-const request = async (method: string, { path, payload }: FetchDataProps): Promise<any> => {
+const request = async (method: string, { path, payload, tokenRequired = true }: FetchDataProps): Promise<any> => {
+  const { token } = useUserStore.getState()
+
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
+  }
+
+  if (tokenRequired && token) {
+    headers['Authorization'] = `Bearer ${token}`
   }
 
   try {
