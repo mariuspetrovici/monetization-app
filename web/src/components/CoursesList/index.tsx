@@ -49,7 +49,7 @@ const CourseList = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      {user?.subscription.name === 'Gold' && (
+      {user?.role === 'admin' && (
         <Button variant='contained' color='primary' onClick={handleOpenDialog} style={{ marginBottom: '20px' }}>
           Create New Course
         </Button>
@@ -62,7 +62,7 @@ const CourseList = () => {
               <CardContent>
                 <Typography variant='h5'>{course.title}</Typography>
                 <Typography>{course.description}</Typography>
-                {user?.subscription.name === 'Gold' && (
+                {user?.role === 'admin' && (
                   <Button variant='contained' color='primary' onClick={() => handleEditCourse(course.id)}>
                     Edit
                   </Button>
