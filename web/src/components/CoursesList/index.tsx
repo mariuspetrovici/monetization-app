@@ -14,9 +14,11 @@ import {
 } from '@mui/material'
 
 import { useCoursesStore } from '../../store/useCoursesStore'
+import { useUserStore } from '../../store/useUserStore'
 
 const CourseList = () => {
   const { courses, createCourse, getCourses } = useCoursesStore()
+  const { user } = useUserStore()
   const [openDialog, setOpenDialog] = useState(false)
   const [newCourseTitle, setNewCourseTitle] = useState('')
   const [newCourseDescription, setNewCourseDescription] = useState('')
@@ -47,9 +49,11 @@ const CourseList = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <Button variant='contained' color='primary' onClick={handleOpenDialog} style={{ marginBottom: '20px' }}>
-        Create New Course
-      </Button>
+      {user?.subscription.name === 'Gold' && (
+        <Button variant='contained' color='primary' onClick={handleOpenDialog} style={{ marginBottom: '20px' }}>
+          Create New Course
+        </Button>
+      )}
 
       <Grid container spacing={3}>
         {courses.map((course) => (
@@ -58,9 +62,11 @@ const CourseList = () => {
               <CardContent>
                 <Typography variant='h5'>{course.title}</Typography>
                 <Typography>{course.description}</Typography>
-                <Button variant='contained' color='primary' onClick={() => handleEditCourse(course.id)}>
-                  Edit
-                </Button>
+                {user?.subscription.name === 'Gold' && (
+                  <Button variant='contained' color='primary' onClick={() => handleEditCourse(course.id)}>
+                    Edit
+                  </Button>
+                )}
               </CardContent>
             </Card>
           </Grid>

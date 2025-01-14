@@ -1,7 +1,10 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const { User } = require("../models");
+const { User, UserSubscription } = require("../models");
+const {
+  subscriptionController,
+} = require("../controllers/subscriptionsController");
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
@@ -22,6 +25,10 @@ exports.login = async (req, res) => {
       role: user.role,
     };
 
+    const subscription = await UserSubscription.findOne({
+      where: { userId: user.id },
+    });
+
     const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, {
       expiresIn: "12h",
     });
@@ -35,6 +42,7 @@ exports.login = async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         role: user.role,
+        subscription,
       },
     });
   } catch (error) {
@@ -90,6 +98,12 @@ exports.createUser = async (req, res) => {
       role,
     });
 
+    let subscription = await UserSubscription.create({
+      userId: user.id,
+      subscriptionId: "e4184678-73ae-4982-8496-96b35e04177a",
+      price: 0,
+    });
+
     res.status(201).json({
       message: "User created successfully",
       user: {
@@ -98,6 +112,9 @@ exports.createUser = async (req, res) => {
         lastName,
         email,
         role,
+        subscription: {
+          id: subscription.subscriptionId,
+        },
       },
     });
   } catch (error) {
@@ -120,20 +137,28 @@ exports.getAllUsers = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { firstName, lastName, email, data } = req.body;
+    const { firstName, lastName, email, subscription } = req.body;
 
-    const updatedUser = await User.update(
-      {
-        firstName,
-        lastName,
-        email,
+    let updatedUser = {};
+    if (firstName || lastName || email) {
+      updatedUser = await User.update(
+        {
+          firstName,
+          lastName,
+          email,
+        },
+        {
+          where: { id },
+        }
+      );
+    }
+
+    res.json({
+      message: "User updated successfully",
+      user: {
+        ...updatedUser,
       },
-      {
-        where: { id },
-      }
-    );
-
-    res.json({ message: "User updated successfully", updatedUser });
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

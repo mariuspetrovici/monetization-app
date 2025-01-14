@@ -28,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM("active", "inactive", "expired"),
         allowNull: false,
       },
+      preview: {
+        type: DataTypes.BLOB("long"), // Stores binary data for the image
+        allowNull: true, // Optional field
+      },
       createdAt: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,

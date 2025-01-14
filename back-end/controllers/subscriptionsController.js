@@ -2,6 +2,16 @@ const { SubscriptionService } = require("../services/SubscriptionService");
 const { User, Subscription, UserSubscription } = require("../models");
 
 const SubscriptionController = (subscriptionService) => {
+  const getAll = async (req, res) => {
+    try {
+      const subscriptions = await subscriptionService.getAllSubscriptions();
+
+      res.status(201).json(subscriptions);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  };
+
   const purchase = async (req, res) => {
     try {
       const { userId, subscriptionId } = req.body;
@@ -20,7 +30,7 @@ const SubscriptionController = (subscriptionService) => {
     }
   };
 
-  return { purchase };
+  return { purchase, getAll };
 };
 
 const subscriptionService = SubscriptionService({

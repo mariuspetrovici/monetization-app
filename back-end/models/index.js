@@ -45,8 +45,8 @@ db.UserSubscription.belongsTo(db.User, { foreignKey: "userId" });
 db.UserSubscription.belongsTo(db.Subscription, { foreignKey: "subscriptionId" });
 db.User.hasMany(db.UserSubscription, { foreignKey: "userId" });
 db.Subscription.hasMany(db.UserSubscription, { foreignKey: "subscriptionId" });
-db.Course.hasMany(db.Page, { foreignKey: "courseId", as: "allContent" });
-db.Page.belongsTo(db.Course, { foreignKey: "courseId" });
+db.Course.hasMany(db.Page, { foreignKey: "courseId", as: "pages" });
+db.Page.belongsTo(db.Course, { foreignKey: "courseId", as: "course" });
 
 // db.Page.belongsTo(db.Course, { foreignKey: "id" });
 // Course.associate = function (models) {

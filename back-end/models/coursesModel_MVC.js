@@ -1,7 +1,5 @@
 const { UUIDV4 } = require("sequelize");
 
-// const courseAccessors = require("../accessors/course");
-
 module.exports = (sequelize, DataTypes) => {
   const Course = sequelize.define(
     "Course",
@@ -15,33 +13,12 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      pageNrBlockers: {
-        type: DataTypes.JSONB,
-        allowNull: true,
-      },
-      pages: {
-        type: DataTypes.JSONB,
-        allowNull: true,
-        references: {
-          model: {
-            tableName: "Courses",
-            schema: "business",
-          },
-          key: "id",
-        },
-      },
-      price: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        // get: courseAccessors.getPrice,
-        // set: courseAccessors.setPrice,
-      },
-      packageId: {
+      subscriptionId: {
         type: DataTypes.UUID,
         allowNull: true,
         references: {
           model: {
-            tableName: "Packages",
+            tableName: "Subscriptions",
             schema: "business",
           },
           key: "id",
@@ -57,11 +34,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       updatedAt: {
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
+        allowNull: true,
       },
       deletedAt: {
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
+        allowNull: true,
       },
     },
     {

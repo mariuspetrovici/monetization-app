@@ -20,6 +20,7 @@
 
 ## Usage
 
+REDIS SERVER - `redis-server`
 BACKEND - `npx nodemon server.js`
 
 ## Technologies

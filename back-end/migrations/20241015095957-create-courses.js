@@ -9,6 +9,10 @@ module.exports = {
           primaryKey: true,
         },
         title: Sequelize.STRING,
+        preview: {
+          type: Sequelize.BYTEA(),
+          allowNull: true,
+        },
         subscriptionId: Sequelize.UUID,
         status: Sequelize.STRING,
         createdAt: Sequelize.DATE,

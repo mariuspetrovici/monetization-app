@@ -17,7 +17,7 @@ exports.getCreateCourseForm = (req, res) => {
 
 exports.createCourse = async (req, res) => {
   console.log("----------------- REQ BODY: ", req.body);
-  const { title, status = "active", price = 0, pageNrBlockers = 0,  } = req.body;
+  const { title, status = "active" } = req.body;
   try {
     await Course.create({ title, status, price: Number(price) });
     res.redirect("/courses");

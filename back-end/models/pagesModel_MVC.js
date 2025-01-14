@@ -1,36 +1,51 @@
-const { Model, DataTypes } = require("sequelize");
+const { UUIDV4 } = require("sequelize");
 
-class Page extends Model {
-  static associate(models) {
-    this.belongsTo(models.Course, { foreignKey: "courseId" });
-  }
-}
-
-module.exports = (sequelize) => {
-  Page.init(
+module.exports = (sequelize, DataTypes) => {
+  const Page = sequelize.define(
+    "Page",
     {
       id: {
         type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
+        defaultValue: UUIDV4,
         primaryKey: true,
       },
-      content: DataTypes.TEXT,
       courseId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: "Courses",
+          model: {
+            tableName: "Courses",
+            schema: "business",
+          },
           key: "id",
         },
       },
+      pageNr: {
+        type: DataTypes.NUMBER,
+        allowNull: false,
+      },
+      body: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
     },
     {
-      sequelize,
-      modelName: "Page",
+      paranoid: true,
+      timestamps: true,
       tableName: "Pages",
       schema: "business",
-      timestamps: true,
-      paranoid: false,
     }
   );
 
